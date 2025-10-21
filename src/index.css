@@ -1,18 +1,70 @@
 @import "tailwindcss";
 
+html {
+  line-height: 1.25;
+  font-size: calc(100vw / 1440 * 16);
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: transparent;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --color1: #0B132B;
+  --color2: #1C2541;
+  --color3: #3A506B;
+  --color4: #5BC0BE;
+  --hover4: #248F8D;
+  --color5: #6FFFE9;
+}
+
+@layer utilities {
+  .bg-color1 {
+    background-color: var(--color1);
+  }
+  .bg-color2 {
+    background-color: var(--color2);
+  }
+  .bg-color3 {
+    background-color: var(--color3);
+  }
+  .bg-color4 {
+    background-color: var(--color4);
+  }
+  .hover\:bg-hover4:hover {
+      background-color: var(--hover4);
+    }
+  .bg-color5 {
+    background-color: var(--color5);
+  }
+  .text-color1 {
+    color: var(--color1);
+  }
+  .text-color2 {
+    color: var(--color2);
+  }
+  .text-color3 {
+    color: var(--color3);
+  }
+  .text-color4 {
+    color: var(--color4);
+  }
+  .hover\:text-hover4:hover {
+      color: var(--hover4);
+    }
+  .text-color5 {
+    color: var(--color5);
+  }
+  .border-color4 {
+    border-color: var(--color4);
+  }
 }
 
 a {
@@ -26,8 +78,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -37,7 +87,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -47,14 +97,14 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
-button:hover {
+} */
+/* button:hover {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -63,8 +113,5 @@ button:focus-visible {
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }
