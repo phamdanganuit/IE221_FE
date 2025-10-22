@@ -93,6 +93,7 @@ function LoginForm() {
             </div>
 
             <div className="flex flex-wrap gap-10 justify-between items-center mt-4 w-full text-[1.25rem] tracking-tight max-md:max-w-full">
+              <div className="flex gap-2.5">
               <label className="flex gap-2.5 items-center self-stretch my-auto text-black ">
                 <input
                   type="checkbox"
@@ -101,7 +102,7 @@ function LoginForm() {
                   className="sr-only"
                 />
                 <div
-                  className={`w-6 h-6 border-2 border-color4 rounded cursor-pointer ${
+                  className={`w-5 h-5 border-2 border-color4 rounded cursor-pointer ${
                     rememberMe ? "bg-color4" : "bg-transparent"
                   } flex items-center justify-center`}
                 >
@@ -119,11 +120,13 @@ function LoginForm() {
                     </svg>
                   )}
                 </div>
-                <span className="self-stretch my-auto">Ghi nhớ</span>
+                
               </label>
+              <span className="self-stretch my-auto text-[1.125rem]">Ghi nhớ</span>
+              </div>
               <button
                 type="button"
-                className="self-stretch my-auto font-medium text-color4 hover:text-hover4 hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-color4 rounded"
+                className="self-stretch my-auto text-[1.125rem] font-medium text-color4 hover:text-hover4 hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-color4 rounded"
               >
                 Quên mật khẩu
               </button>
@@ -131,7 +134,8 @@ function LoginForm() {
 
             <button
               type="submit"
-              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-5 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color4 rounded-2xl min-h-16 w-full hover:bg-hover4 transition-colors cursor-pointer"
+              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-5 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color4 rounded-2xl min-h-16 w-full hover:bg-hover4 hover:shadow-lg hover:-translate-y-1 
+               transition-all duration-200 ease-in-out cursor-pointer"
             >
               <span className="self-stretch my-auto">Đăng nhập</span>
             </button>
@@ -141,7 +145,7 @@ function LoginForm() {
             <p className="self-stretch my-auto text-black">
               Chưa có tài khoản ?
             </p>
-            <button className="self-stretch my-auto font-semibold text-color4 hover:underline cursor-pointer">
+            <button onClick={() => navigate("/register")} className="self-stretch my-auto font-semibold text-color4 hover:underline cursor-pointer">
               Đăng ký
             </button>
           </div>
@@ -162,7 +166,7 @@ function LoginForm() {
             />
           </div>
 
-          <SocialLoginButtons />
+          <SocialLoginButtons buttonBg="#5BC0BE" buttonHoverBg="#248F8D" />
         </main>
       </div>
     </section>
