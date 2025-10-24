@@ -6,14 +6,26 @@ function RegisterPage() {
   return (
     <div
       className="flex w-full h-full bg-white max-md:flex-col"
-      aria-label="Trang đăng nhập Wild Step"
+      aria-label="Trang đăng ký Wild Step"
     >
-      <RegisterForm />
-      <div className="hidden md:flex w-11/20 h-full justify-center items-center">
+      <button
+        onClick={() => navigate("/")}
+        className="absolute left-[45%] top-8 py-5 max-w-full cursor-pointer"
+      >
+        <img
+          src="/Logo.svg"
+          alt="Wild Step Logo"
+          className="object-contain w-full aspect-[9.52] max-md:w-[15rem]"
+        />
+      </button>
+      <div className="flex w-full h-screen justify-center items-center">
+        <RegisterForm />
+      </div>
+      <div className="hidden md:flex h-screen w-11/20 justify-center items-center">
         <img
           src={bg}
           alt="Register background"
-          className="w-full h-full object-contain"
+          className="h-full object-cover "
         />
       </div>
     </div>

@@ -18,7 +18,7 @@ function SocialLoginButtons({ buttonBg, buttonHoverBg }) {
         <button
           key={index}
           aria-label={btn.label}
-          className={`flex relative flex-col gap-2.5 items-start px-6 py-4 rounded-2xl max-md:px-5 max-md:py-3 max-sm:px-5 max-sm:py-4 cursor-pointer hover:shadow-lg hover:-translate-y-1 
+          className={`flex relative flex-col gap-2.5 items-start px-5.5 py-3 rounded-2xl max-md:px-5 max-md:py-3 max-sm:px-5 max-sm:py-4 cursor-pointer hover:shadow-lg hover:-translate-y-1 
               transition-all duration-200 ease-in-out`}
           style={{
             backgroundColor: buttonBg,
@@ -31,7 +31,7 @@ function SocialLoginButtons({ buttonBg, buttonHoverBg }) {
           }
         >
           {React.cloneElement(btn.icon, {
-            className: "text-[3.375rem] text-white",
+            className: "text-[2.65rem] text-white",
           })}
         </button>
       ))}
