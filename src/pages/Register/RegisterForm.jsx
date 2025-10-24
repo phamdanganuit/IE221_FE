@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import SocialLoginButtons from "@/components/SocialLoginButton";
+import { register } from "../../service/authService";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -66,11 +67,13 @@ function LoginForm() {
 
     // Handle registration logic here (replace with real auth)
     console.log("Register attempt:", { fullName, email, password });
-    navigate("/");
+    register(email, password, fullName, null).then((res) => {
+      if (res && res.email) navigate("/login");
+    });
   };
 
   return (
-  <section className="flex w-auto h-full relative justify-center items-center p-4 max-md:px-5 max-md:py-10 max-md:w-full">
+    <section className="flex w-auto h-full relative justify-center items-center p-4 max-md:px-5 max-md:py-10 max-md:w-full">
       <style>{`
       @keyframes shakeX { 
         0% { transform: translateX(0); } 
