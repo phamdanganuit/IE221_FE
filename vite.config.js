@@ -11,4 +11,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    port: parseInt(process.env.VITE_BASE_URL?.split(':')[2] || '5173'),
+    host: true
+  }
 })
