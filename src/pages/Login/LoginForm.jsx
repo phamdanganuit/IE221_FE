@@ -1,30 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SocialLoginButtons from "@/components/SocialLoginButton";
-import { login } from "../../service/authService";
+import { login, getStoredToken } from "../../service/authService";
 import { useAuthStore } from "../../store/authStore";
+import { useToast } from "../../contexts/ToastContext";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const setAuth = useAuthStore((state) => state.setAuth);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const { success, error } = useToast();
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle login logic here (you can replace this with real auth)
-    console.log("Login attempt:", { email, password, rememberMe });
-    // Redirect to /login
-    login(email, password, rememberMe).then((res) => {
-      if (res && res.access_token) {
-        setAuth(res.access_token)
-        navigate("/")
+  // Khởi tạo auth state nếu có token
+  useEffect(() => {
+    const checkAuth = async () => {
+      const storedToken = getStoredToken();
+      if (storedToken) {
+        await initializeAuth();
       }
-    });
+    };
+    checkAuth();
+  }, [initializeAuth]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    try {
+      const result = await login(email, password, rememberMe);
+      
+      if (result.success) {
+        // Tạo user info đơn giản từ email
+        const userInfo = {
+          email: email,
+          displayName: email.split('@')[0], // Lấy phần trước @ làm displayName
+          avatar: null // Sẽ được cập nhật từ API profile sau
+        };
+        setAuth(result.data.access_token, userInfo);
+        navigate("/");
+      } else {
+        error(result.error);
+      }
+    } catch (err) {
+      console.error("Lỗi đăng nhập:", err);
+      error("Có lỗi xảy ra. Vui lòng thử lại.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -133,10 +162,26 @@ function LoginForm() {
 
             <button
               type="submit"
-              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-4 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color4 rounded-2xl w-full hover:bg-hover4 hover:shadow-lg hover:-translate-y-1 
-               transition-all duration-200 ease-in-out cursor-pointer"
+              disabled={isLoading}
+              className={`
+                flex gap-2.5 justify-center items-center px-[0.0625rem] py-4 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white rounded-2xl w-full transition-all duration-200 ease-in-out cursor-pointer
+                ${isLoading 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-color4 hover:bg-hover4 hover:shadow-lg hover:-translate-y-1'
+                }
+              `}
             >
-              <span className="self-stretch my-auto">Đăng nhập</span>
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span className="self-stretch my-auto">Đang đăng nhập...</span>
+                </>
+              ) : (
+                <span className="self-stretch my-auto">Đăng nhập</span>
+              )}
             </button>
           </form>
 
