@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SocialLoginButtons from "@/components/SocialLoginButton";
+import { login } from "../../service/authService";
+import { useAuthStore } from "../../store/authStore";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   const navigate = useNavigate();
 
@@ -15,7 +19,12 @@ function LoginForm() {
     // Handle login logic here (you can replace this with real auth)
     console.log("Login attempt:", { email, password, rememberMe });
     // Redirect to /login
-    navigate("/");
+    login(email, password, rememberMe).then((res) => {
+      if (res && res.access_token) {
+        setAuth(res.access_token)
+        navigate("/")
+      }
+    });
   };
 
   return (
