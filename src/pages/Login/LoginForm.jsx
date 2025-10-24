@@ -19,20 +19,9 @@ function LoginForm() {
   };
 
   return (
-    <section className="flex w-full h-full justify-center items-center p-5">
-      <div className="flex flex-col justify-center items-center mt-8 max-md:mt-10 max-md:max-w-full">
-        <button
-          onClick={() => navigate("/")}
-          className="flex flex-col justify-center self-end py-5 max-w-full cursor-pointer"
-        >
-          <img
-            src="/Logo.svg"
-            alt="Wild Step Logo"
-            className="object-contain w-full aspect-[9.52]"
-          />
-        </button>
-
-        <main className="flex flex-col gap-4 mt-12 w-full max-md:mt-10 max-md:max-w-full">
+    <section className="flex w-auto h-full relative justify-center items-center p-4 max-md:px-5 max-md:py-10 max-md:w-full">
+      <div className="flex flex-col justify-center items-center mt-3 max-md:mt-10 max-md:max-w-full">
+        <main className="flex flex-col gap-3 mt-10 w-full max-md:mt-10 max-md:max-w-full">
           <header className="flex flex-col justify-start items-start gap-1">
             <h1 className="text-[3rem] font-semibold text-color4 max-md:text-[2.25rem]">
               Đăng nhập
@@ -55,7 +44,7 @@ function LoginForm() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex flex-col justify-center px-5 py-6 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color4 focus:border-color4"
+                className="flex flex-col justify-center px-5 py-4 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color4 focus:border-color4"
                 placeholder="info@gmail.com"
                 required
                 aria-describedby="email-help"
@@ -73,7 +62,7 @@ function LoginForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Mật khẩu"
-                  className="flex flex-col justify-center px-5 py-6 mt-1.5 w-full text-[1.25rem] tracking-tight rounded-2xl border-2 border-solid border-[#333678]/50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color4 focus:border-color4"
+                  className="flex flex-col justify-center px-5 py-4 mt-1.5 w-full text-[1.25rem] tracking-tight rounded-2xl border-2 border-solid border-[#333678]/50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color4 focus:border-color4"
                   required
                   aria-describedby="password-help"
                 />
@@ -94,35 +83,36 @@ function LoginForm() {
 
             <div className="flex flex-wrap gap-10 justify-between items-center mt-4 w-full text-[1.25rem] tracking-tight max-md:max-w-full">
               <div className="flex gap-2.5">
-              <label className="flex gap-2.5 items-center self-stretch my-auto text-black ">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="sr-only"
-                />
-                <div
-                  className={`w-5 h-5 border-2 border-color4 rounded cursor-pointer ${
-                    rememberMe ? "bg-color4" : "bg-transparent"
-                  } flex items-center justify-center`}
-                >
-                  {rememberMe && (
-                    <svg
-                      className="w-5 h-5 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  )}
-                </div>
-                
-              </label>
-              <span className="self-stretch my-auto text-[1.125rem]">Ghi nhớ</span>
+                <label className="flex gap-2.5 items-center self-stretch my-auto text-black ">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-5 h-5 border-2 border-color4 rounded cursor-pointer ${
+                      rememberMe ? "bg-color4" : "bg-transparent"
+                    } flex items-center justify-center`}
+                  >
+                    {rememberMe && (
+                      <svg
+                        className="w-5 h-5 text-white"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                </label>
+                <span className="self-stretch my-auto text-[1.125rem]">
+                  Ghi nhớ
+                </span>
               </div>
               <button
                 type="button"
@@ -134,7 +124,7 @@ function LoginForm() {
 
             <button
               type="submit"
-              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-5 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color4 rounded-2xl min-h-16 w-full hover:bg-hover4 hover:shadow-lg hover:-translate-y-1 
+              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-4 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color4 rounded-2xl w-full hover:bg-hover4 hover:shadow-lg hover:-translate-y-1 
                transition-all duration-200 ease-in-out cursor-pointer"
             >
               <span className="self-stretch my-auto">Đăng nhập</span>
@@ -145,7 +135,10 @@ function LoginForm() {
             <p className="self-stretch my-auto text-black">
               Chưa có tài khoản ?
             </p>
-            <button onClick={() => navigate("/register")} className="self-stretch my-auto font-semibold text-color4 hover:underline cursor-pointer">
+            <button
+              onClick={() => navigate("/register")}
+              className="self-stretch my-auto font-semibold text-color4 hover:underline cursor-pointer"
+            >
               Đăng ký
             </button>
           </div>

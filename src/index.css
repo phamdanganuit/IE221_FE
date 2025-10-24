@@ -2,7 +2,7 @@
 
 html {
   line-height: 1.25;
-  font-size: calc(100vw / 1440 * 16);
+  font-size: calc(100vw / 1728 * 16);
 }
 
 :root {

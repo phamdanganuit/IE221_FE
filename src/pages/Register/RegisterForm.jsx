@@ -70,7 +70,7 @@ function LoginForm() {
   };
 
   return (
-    <section className="flex w-9/20 h-full justify-center items-center p-5">
+  <section className="flex w-auto h-full relative justify-center items-center p-4 max-md:px-5 max-md:py-10 max-md:w-full">
       <style>{`
       @keyframes shakeX { 
         0% { transform: translateX(0); } 
@@ -83,18 +83,7 @@ function LoginForm() {
       .shake { animation: shakeX 0.6s ease-in-out; }
       `}</style>
       <div className="flex flex-col justify-center items-center mt-8 max-md:mt-10 max-md:max-w-full">
-        <button
-          onClick={() => navigate("/")}
-          className="flex flex-col justify-center self-end py-5 max-w-full cursor-pointer"
-        >
-          <img
-            src="/Logo.svg"
-            alt="Wild Step Logo"
-            className="object-contain w-full aspect-[9.52]"
-          />
-        </button>
-
-        <main className="flex flex-col gap-4 mt-12 w-full max-md:mt-10 max-md:max-w-full">
+        <main className="flex flex-col gap-3 mt-3 w-full max-md:mt-10 max-md:max-w-full">
           <header className="flex flex-col justify-start items-start gap-1">
             <h1 className="text-[3rem] font-semibold text-color2 max-md:text-[2.25rem]">
               Đăng ký
@@ -120,7 +109,7 @@ function LoginForm() {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="flex flex-col justify-center px-5 py-6 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
+                className="flex flex-col justify-center px-5 py-4 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
                 placeholder="Nguyễn Văn A"
                 required
                 aria-describedby="fullname-help"
@@ -136,7 +125,7 @@ function LoginForm() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex flex-col justify-center px-5 py-6 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
+                className="flex flex-col justify-center px-5 py-4 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
                 placeholder="info@gmail.com"
                 aria-describedby="email-help"
               />
@@ -158,7 +147,7 @@ function LoginForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Mật khẩu"
-                  className="flex flex-col justify-center px-5 py-6 mt-1.5 w-full text-[1.25rem] tracking-tight rounded-2xl border-2 border-solid border-[#333678]/50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
+                  className="flex flex-col justify-center px-5 py-4 mt-1.5 w-full text-[1.25rem] tracking-tight rounded-2xl border-2 border-solid border-[#333678]/50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
                   aria-describedby="password-help"
                 />
                 <button
@@ -247,7 +236,7 @@ function LoginForm() {
 
             <button
               type="submit"
-              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-5 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color2 rounded-2xl min-h-16 w-full  hover:bg-[#003366] hover:shadow-lg hover:-translate-y-1 
+              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-4 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color2 rounded-2xl min-h-16 w-full  hover:bg-[#003366] hover:shadow-lg hover:-translate-y-1 
                transition-all duration-200 ease-in-out cursor-pointer"
             >
               <span className="self-stretch my-auto">Đăng ký</span>
