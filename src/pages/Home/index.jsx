@@ -137,12 +137,12 @@ export default function Home() {
             // Giao diện khi chưa đăng nhập
             <div className="flex items-center gap-4">
               <div className="flex items-center bg-white rounded-full px-3 py-1 text-[#0A1E33]">
+                <img src="/icon/material-symbols_search-rounded.svg" alt="Search" className="w-4 h-4 mr-1" />
                 <input
                   type="text"
                   placeholder="Search"
                   className="bg-transparent outline-none text-sm px-2"
                 />
-                <i className="fa-solid fa-magnifying-glass text-[#0A1E33]"></i>
               </div>
               
               <button 
