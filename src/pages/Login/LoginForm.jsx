@@ -44,6 +44,7 @@ function LoginForm() {
           avatar: null // Sẽ được cập nhật từ API profile sau
         };
         setAuth(result.data.access_token, userInfo);
+        success(result.message)
         navigate("/");
       } else {
         error(result.error);

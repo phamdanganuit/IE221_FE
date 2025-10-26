@@ -1,4 +1,4 @@
-const base_url = import.meta.env.VITE_BACKEND_URL || "https://api.shoe-shop.app/api";
+const base_url = import.meta.env.VITE_BACKEND_URL // tạo file .env thêm biến vào
 
 // Helper function để lưu token
 const saveToken = (token, rememberMe = false) => {
@@ -239,6 +239,7 @@ export const getProfile = async (token) => {
 
     if (!res.ok) {
       if (res.status === 401) {
+        clearStoredToken();
         throw new Error("Token không hợp lệ hoặc đã hết hạn");
       }
       if (res.status === 404) {
