@@ -92,6 +92,7 @@ function RegisterForm() {
       const result = await register(email, password, fullName, null);
       
       if (result.success) {
+        success(result.message)
         navigate("/login");
       } else {
         error(result.error);
