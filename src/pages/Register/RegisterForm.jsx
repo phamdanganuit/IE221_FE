@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import SocialLoginButtons from "@/components/SocialLoginButton";
+import { register, getStoredToken } from "../../service/authService";
+import { useAuthStore } from "../../store/authStore";
+import { useToast } from "../../contexts/ToastContext";
 
-function LoginForm() {
+function RegisterForm() {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
@@ -10,8 +13,24 @@ function LoginForm() {
   const [check, setCheck] = useState(false);
   const [errors, setErrors] = useState({});
   const [agreeShake, setAgreeShake] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const { success, error } = useToast();
+  
+  const navigate = useNavigate();
   const MIN_PASSWORD_LENGTH = 8; // minimum length required
+
+  // Khởi tạo auth state nếu có token
+  useEffect(() => {
+    const checkAuth = async () => {
+      const storedToken = getStoredToken();
+      if (storedToken) {
+        await initializeAuth();
+      }
+    };
+    checkAuth();
+  }, [initializeAuth]);
 
   const isStrongPassword = (value) => {
     // ít nhất phải có 1 chữ in hoa, 1 chữ số và 1 ký tự đặc biệt
@@ -23,12 +42,16 @@ function LoginForm() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   };
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const nextErrors = {};
+
+    // Validation cho fullName
+    if (!fullName || fullName.trim() === "") {
+      nextErrors.fullName = "Họ và tên là bắt buộc";
+    }
 
     if (!email || email.trim() === "") {
       nextErrors.email = "Email là bắt buộc";
@@ -61,16 +84,28 @@ function LoginForm() {
         setAgreeShake(true);
         setTimeout(() => setAgreeShake(false), 700);
       }
+      setIsLoading(false);
       return;
     }
 
-    // Handle registration logic here (replace with real auth)
-    console.log("Register attempt:", { fullName, email, password });
-    navigate("/");
+    try {
+      const result = await register(email, password, fullName, null);
+      
+      if (result.success) {
+        navigate("/login");
+      } else {
+        error(result.error);
+      }
+    } catch (err) {
+      console.error("Lỗi đăng ký:", err);
+      error("Có lỗi xảy ra. Vui lòng thử lại.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-  <section className="flex w-auto h-full relative justify-center items-center p-4 max-md:px-5 max-md:py-10 max-md:w-full">
+    <section className="flex w-auto h-full relative justify-center items-center p-4 max-md:px-5 max-md:py-10 max-md:w-full">
       <style>{`
       @keyframes shakeX { 
         0% { transform: translateX(0); } 
@@ -111,9 +146,13 @@ function LoginForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 className="flex flex-col justify-center px-5 py-4 mt-1.5 w-full text-[1.25rem] text-[#000000]/50 tracking-tight whitespace-nowrap rounded-2xl border-2 border-solid bg-opacity-0 border-[#333678]/50 border-opacity-50 min-h-16 max-md:max-w-full focus:outline-none focus:ring-2 focus:ring-color2 focus:border-color2"
                 placeholder="Nguyễn Văn A"
-                required
                 aria-describedby="fullname-help"
               />
+              {errors.fullName && (
+                <p className="mt-2 text-sm text-red-600" id="fullname-help">
+                  {errors.fullName}
+                </p>
+              )}
             </div>
 
             <div className="mt-4 w-full font-medium max-md:max-w-full">
@@ -236,10 +275,26 @@ function LoginForm() {
 
             <button
               type="submit"
-              className="flex gap-2.5 justify-center items-center px-[0.0625rem] py-4 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white bg-color2 rounded-2xl min-h-16 w-full  hover:bg-[#003366] hover:shadow-lg hover:-translate-y-1 
-               transition-all duration-200 ease-in-out cursor-pointer"
+              disabled={isLoading}
+              className={`
+                flex gap-2.5 justify-center items-center px-[0.0625rem] py-4 mt-4 max-w-full text-[1.5rem] font-semibold tracking-tight text-center text-white rounded-2xl min-h-16 w-full transition-all duration-200 ease-in-out cursor-pointer
+                ${isLoading 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-color2 hover:bg-[#003366] hover:shadow-lg hover:-translate-y-1'
+                }
+              `}
             >
-              <span className="self-stretch my-auto">Đăng ký</span>
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span className="self-stretch my-auto">Đang đăng ký...</span>
+                </>
+              ) : (
+                <span className="self-stretch my-auto">Đăng ký</span>
+              )}
             </button>
           </form>
 
@@ -276,4 +331,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default RegisterForm;
