@@ -76,37 +76,81 @@ function SocialLoginButtons({ buttonBg, buttonHoverBg }) {
     
     try {
       // Khởi tạo Facebook SDK
-      if (typeof window.FB === 'undefined') {
-        await loadFacebookScript();
-      }
+      await loadFacebookScript();
 
-      window.FB.login(async (response) => {
-        if (response.authResponse) {
-          try {
-            const result = await loginWithFacebook(response.authResponse.accessToken);
-            
-            if (result.success) {
-              // Lấy thông tin user từ Facebook
-              window.FB.api('/me', { fields: 'name,email,picture' }, (userData) => {
-                const userInfo = {
-                  email: userData.email || 'facebook@user.com',
-                  displayName: userData.name || 'Facebook User',
-                  avatar: userData.picture?.data?.url || null // Lấy ảnh từ Facebook
-                };
-                setAuth(result.data.access_token, userInfo);
-                navigate("/"); // Redirect về home
-              });
-            } else {
-              error(result.error);
-            }
-          } catch (err) {
-            console.error("Lỗi xử lý Facebook login:", err);
-            error("Có lỗi xảy ra khi đăng nhập Facebook");
+      // Đợi FB object được tạo và khởi tạo
+      let attempts = 0;
+      const maxAttempts = 50; // 5 seconds max
+      
+      while (!window.FB && attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+      }
+      
+      if (!window.FB) {
+        throw new Error('Facebook SDK failed to load');
+      }
+      
+      // Init FB nếu chưa được init
+      try {
+        // Kiểm tra xem FB có getAppId method không
+        if (typeof window.FB.getAppId === 'function') {
+          const currentAppId = window.FB.getAppId();
+          if (!currentAppId) {
+            window.FB.init({
+              appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+              cookie: true,
+              xfbml: true,
+              version: 'v18.0'
+            });
           }
         } else {
-          error("Đăng nhập Facebook bị hủy");
+          // Không có getAppId, init luôn
+          window.FB.init({
+            appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+            cookie: true,
+            xfbml: true,
+            version: 'v18.0'
+          });
         }
-        setIsLoading(prev => ({ ...prev, facebook: false }));
+      } catch (err) {
+        // Silent fail - FB đã init rồi
+        console.log('FB already initialized or init failed silently');
+      }
+
+      window.FB.login((response) => {
+        if (response.authResponse) {
+          const processLogin = async () => {
+            try {
+              const result = await loginWithFacebook(response.authResponse.accessToken);
+              
+              if (result.success) {
+                // Lấy thông tin user từ Facebook
+                window.FB.api('/me', { fields: 'name,email,picture' }, (userData) => {
+                  const userInfo = {
+                    email: userData.email || 'facebook@user.com',
+                    displayName: userData.name || 'Facebook User',
+                    avatar: userData.picture?.data?.url || null // Lấy ảnh từ Facebook
+                  };
+                  setAuth(result.data.access_token, userInfo);
+                  navigate("/"); // Redirect về home
+                });
+              } else {
+                error(result.error);
+              }
+            } catch (err) {
+              console.error("Lỗi xử lý Facebook login:", err);
+              error("Có lỗi xảy ra khi đăng nhập Facebook");
+            } finally {
+              setIsLoading(prev => ({ ...prev, facebook: false }));
+            }
+          };
+          
+          processLogin();
+        } else {
+          error("Đăng nhập Facebook bị hủy");
+          setIsLoading(prev => ({ ...prev, facebook: false }));
+        }
       }, { scope: 'email,public_profile' });
     } catch (err) {
       console.error("Lỗi Facebook OAuth:", err);
@@ -137,7 +181,34 @@ function SocialLoginButtons({ buttonBg, buttonHoverBg }) {
   const loadFacebookScript = () => {
     return new Promise((resolve, reject) => {
       if (window.FB) {
-        resolve();
+        // Kiểm tra xem đã init chưa
+        if (window.FB.getAppId && window.FB.getAppId() === import.meta.env.VITE_FACEBOOK_APP_ID) {
+          resolve();
+          return;
+        }
+      }
+
+      // Check if script already exists
+      const existingScript = document.querySelector('script[src="https://connect.facebook.net/en_US/sdk.js"]');
+      if (existingScript) {
+        // Script đã tồn tại, đợi FB load xong
+        const checkFB = setInterval(() => {
+          if (window.FB) {
+            window.FB.init({
+              appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+              cookie: true,
+              xfbml: true,
+              version: 'v18.0',
+              autoLogAppEvents: false  // Tắt auto logging
+            });
+            clearInterval(checkFB);
+            resolve();
+          }
+        }, 100);
+        setTimeout(() => {
+          clearInterval(checkFB);
+          reject(new Error('Facebook SDK load timeout'));
+        }, 10000);
         return;
       }
 
@@ -147,13 +218,20 @@ function SocialLoginButtons({ buttonBg, buttonHoverBg }) {
       script.async = true;
       script.defer = true;
       script.onload = () => {
-        window.FB.init({
-          appId: import.meta.env.VITE_FACEBOOK_APP_ID,
-          cookie: true,
-          xfbml: true,
-          version: 'v18.0'
-        });
-        resolve();
+        // Đợi FB object được tạo
+        const initFB = setInterval(() => {
+          if (window.FB) {
+            window.FB.init({
+              appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+              cookie: true,
+              xfbml: true,
+              version: 'v18.0',
+              autoLogAppEvents: false  // Tắt auto logging để giảm console errors
+            });
+            clearInterval(initFB);
+            resolve();
+          }
+        }, 50);
       };
       script.onerror = reject;
       document.head.appendChild(script);
