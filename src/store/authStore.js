@@ -5,6 +5,7 @@ export const useAuthStore = create((set, get) => ({
   token: null,
   user: null,
   isAuthenticated: false,
+  isLoading: true,
 
   // Khởi tạo auth state từ localStorage/sessionStorage
   initializeAuth: async () => {
@@ -22,6 +23,7 @@ export const useAuthStore = create((set, get) => ({
         console.error("Lỗi lấy profile:", error);
       }
     }
+    set({ isLoading: false });
   },
 
   // Lưu token & user sau khi đăng nhập
