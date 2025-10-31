@@ -1,8 +1,10 @@
 import React from "react";
 import bg from "@/assets/login_bg.png";
 import LoginForm from "./LoginForm";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   return (
     <div
         className="flex w-full h-full bg-white max-md:flex-col"

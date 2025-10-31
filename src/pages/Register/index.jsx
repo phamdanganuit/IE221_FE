@@ -1,8 +1,10 @@
 import React from "react";
 import bg from "@/assets/register_bg.png";
 import RegisterForm from "./RegisterForm";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   return (
     <div
       className="flex w-full h-full bg-white max-md:flex-col"
