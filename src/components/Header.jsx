@@ -35,11 +35,17 @@ const Header = () => {
   }, []);
 
   // Set loading state when avatar changes
+  const prevAvatarRef = useRef(user?.avatar);
+
   useEffect(() => {
-    if (user?.avatar) {
+    if (user?.avatar && user?.avatar !== prevAvatarRef.current) {
       setAvatarLoading(true);
+      prevAvatarRef.current = user.avatar;
+    } else if (!user?.avatar) {
+      setAvatarLoading(false); 
     }
   }, [user?.avatar]);
+
   return (
     <header className="w-full flex items-center justify-between px-10 py-4 bg-color1 text-white">
       <div className="flex items-center gap-2">
