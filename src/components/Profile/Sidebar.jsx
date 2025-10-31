@@ -2,7 +2,7 @@ import React from "react";
 
 function Sidebar({ isActive, setActive }) {
   return (
-    <div className="mt-10 flex flex-col space-y-4 w-[250px] h-full justify-start">
+    <div className="mt-10 flex flex-col space-y-4 w-[250px] h-[400px] justify-start pr-6 border-r border-[#3A506B] ">
       <button
         className={`${
           isActive === "Hồ sơ" ? "font-bold text-[#0B132B]" : "font-semibold text-zinc-500"
