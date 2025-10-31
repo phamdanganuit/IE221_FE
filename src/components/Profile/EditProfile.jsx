@@ -5,45 +5,104 @@ import DatePicker from "../DatePicker";
 import { Button } from "../ui/button";
 import { Save } from "lucide-react";
 import ChangeAvatar from "./ChangeAvatar";
+import { getProfile, updateProfile, uploadAvatar } from "@/service/profileService";
+import { useAuthStore } from "@/store/authStore";
+import { useToast } from "@/contexts/ToastContext";
+import { getFullAvatarUrl } from "@/lib/avatarUtils";
 
 function EditProfile() {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [sex, setSex] = useState("Nam");
+  const [sex, setSex] = useState("male");
   const [birth, setBirth] = useState(null);
   const [avatar, setAvatar] = useState("");
-  const [isLoading, setIsLoading] = useState(true)
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setAuth, token } = useAuthStore();
+  const { success, error } = useToast();
 
   useEffect(() => {
-    const fetchData = async () => { // gọi API lấy general profile (displayName, email, phone, sex, birth, avatar)
-      setDisplayName("Hac Thien Cau");
-      setEmail("22521641@gm.uit.edu.vn");
-      setPhone("0779765688");
-      setSex("Nữ");
-      setBirth(new Date("2004-06-27T17:00:00.000Z")); // new Date(birth) hoặc null
-      setAvatar(
-        "https://styles.redditmedia.com/t5_4x22x5/styles/communityIcon_qo5i3hehh3i71.jpg?width=256&s=95c779083e5f2b906068fd850c6e095e62dda99b"
-      );
-      setIsLoading(false)
+    const fetchData = async () => {
+      const result = await getProfile();
+      if (result.success) {
+        const profile = result.data;
+        setDisplayName(profile.displayName || "");
+        setEmail(profile.email || "");
+        setPhone(profile.phone || "");
+        
+        // Map giá trị từ API sang giá trị UI
+        if (profile.sex === "male") setSex("Nam");
+        else if (profile.sex === "female") setSex("Nữ");
+        else setSex("Không muốn đề cập");
+        
+        setBirth(profile.birth ? new Date(profile.birth) : null);
+        // Convert avatar URL to full URL if it's relative
+        const fullAvatarUrl = profile.avatar ? getFullAvatarUrl(profile.avatar) : "";
+        setAvatar(fullAvatarUrl);
+      } else {
+        error(result.error || "Không thể lấy thông tin người dùng");
+      }
+      setIsLoading(false);
     };
     fetchData();
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // tránh reload trang
+  const handleAvatarChange = async (file) => {
+    if (!file) return;
+    
+    // Upload avatar ngay khi chọn
+    const result = await uploadAvatar(file);
+    if (result.success) {
+      // Use helper to get full URL
+      const fullAvatarUrl = getFullAvatarUrl(result.data.avatarUrl);
+      setAvatar(fullAvatarUrl);
+      success(result.message);
+      
+      // Cập nhật auth store
+      const profileResult = await getProfile();
+      if (profileResult.success) {
+        // Normalize avatar URL in profile data before saving to store
+        const updatedProfile = {
+          ...profileResult.data,
+          avatar: fullAvatarUrl
+        };
+        setAuth(token, updatedProfile);
+      }
+    } else {
+      error(result.error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Map giá trị từ UI sang giá trị API
+    let sexValue;
+    if (sex === "Nam") sexValue = "male";
+    else if (sex === "Nữ") sexValue = "female";
+    else sexValue = "other";
+
     const data = {
       displayName,
-      email,
       phone,
-      sex,
-      birth: birth.toISOString(),
-      avatar,
+      sex: sexValue,
+      birth: birth ? birth.toISOString() : null,
     };
-    console.log("Dữ liệu người dùng:", data);
 
-    // gọi API update profile:
-    // await updateProfile(data)
+    const result = await updateProfile(data);
+    
+    if (result.success) {
+      success(result.message);
+      // Cập nhật auth store với thông tin mới
+      setAuth(token, result.data);
+    } else {
+      error(result.error);
+    }
+    
+    setIsSubmitting(false);
   };
 
   if(isLoading){
@@ -119,13 +178,14 @@ function EditProfile() {
           )}
           <Button
             type="submit"
+            disabled={isSubmitting}
             className={"font-semibold flex items-center gap-2 mt-5"}
           >
             <Save />
-            Lưu thay đổi
+            {isSubmitting ? "Đang lưu..." : "Lưu thay đổi"}
           </Button>
         </form>
-        <ChangeAvatar avatar={avatar} setAvatar={setAvatar} />
+        <ChangeAvatar avatar={avatar} setAvatar={handleAvatarChange} />
       </div>
     </div>
   );

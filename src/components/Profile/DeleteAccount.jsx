@@ -10,12 +10,36 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { ChevronLeftIcon } from "lucide-react";
+import { deleteAccount } from "@/service/profileService";
+import { useAuthStore } from "@/store/authStore";
+import { useToast } from "@/contexts/ToastContext";
+import { useNavigate } from "react-router-dom";
 
 function DeleteAccountDialog() {
   const [open, setOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { clearAuth } = useAuthStore();
+  const { success, error } = useToast();
+  const navigate = useNavigate();
+
   const handleDeteleAccount = async () => {
-    // ....
-    setOpen(false);
+    if (!confirm("Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác!")) {
+      return;
+    }
+
+    setIsDeleting(true);
+    const result = await deleteAccount();
+
+    if (result.success) {
+      success(result.message);
+      clearAuth();
+      setOpen(false);
+      navigate("/");
+    } else {
+      error(result.error);
+    }
+
+    setIsDeleting(false);
   };
   return (
     <Dialog open={open}  onOpenChange={setOpen}>
@@ -40,8 +64,12 @@ function DeleteAccountDialog() {
               Quay lại
             </Button>
           </DialogClose>
-          <Button variant="destructive" onClick={handleDeteleAccount}>
-            Xóa tài khoản
+          <Button 
+            variant="destructive" 
+            onClick={handleDeteleAccount}
+            disabled={isDeleting}
+          >
+            {isDeleting ? "Đang xóa..." : "Xóa tài khoản"}
           </Button>
         </DialogFooter>
       </DialogContent>

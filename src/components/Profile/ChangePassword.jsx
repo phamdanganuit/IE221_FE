@@ -3,25 +3,38 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Save } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
+import { changePassword } from "@/service/accountService";
 
 function ChangePassword() {
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // tránh reload trang
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
     if (newPass !== confirmPass) {
       error("Mật khẩu mới và nhập lại mật khẩu không khớp!");
       return;
     }
-    const data = {
-      oldPass, newPass, confirmPass
-    };
-    console.log("Dữ liệu người dùng:", data);
-    // gọi API change password:
+
+    setIsLoading(true);
+    
+    const result = await changePassword(oldPass, newPass);
+    
+    if (result.success) {
+      success(result.message);
+      // Reset form
+      setOldPass("");
+      setNewPass("");
+      setConfirmPass("");
+    } else {
+      error(result.error);
+    }
+    
+    setIsLoading(false);
   };
 
   if(isLoading){
@@ -61,10 +74,11 @@ function ChangePassword() {
           />
           <Button
             type="submit"
+            disabled={isLoading}
             className={"font-semibold flex items-center gap-2 mt-5"}
           >
             <Save />
-            Lưu thay đổi
+            {isLoading ? "Đang xử lý..." : "Lưu thay đổi"}
           </Button>
         </form>
       </div>

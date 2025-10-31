@@ -24,7 +24,7 @@ export default function AddressDialog({address , title, submitText, submitIcon, 
     const [district, setDistrict] = useState(address ? address.district : "");
     const [province, setProvince] = useState(address ? address.province : "");
     const [phone, setPhone] = useState(address ? address.phone : "");
-    const [defaultAddress, setDefaultAddress] = useState(address ? address.default : false);
+    const [defaultAddress, setDefaultAddress] = useState(address ? (address.default || address.is_default) : false);
     const [isLoading, setIsLoading] = useState(false);
     const handleSubmit = async() => {
       setIsLoading(true);

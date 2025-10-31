@@ -7,6 +7,8 @@ import {
   ItemTitle,
 } from "../ui/item";
 import { Switch } from "../ui/switch";
+import { getNotificationSettings, updateNotificationSettings } from "@/service/accountService";
+import { useToast } from "@/contexts/ToastContext";
 
 const NotifItem = ({ title, description, value, setValue, disabled }) => {
   return (
@@ -41,39 +43,56 @@ const NotifItem = ({ title, description, value, setValue, disabled }) => {
 };
 
 function NotifSetting() {
-  const [isLoaded, setIsLoaded] = useState(false); // To prevent hydration issues
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [emailNotif, setEmailNotif] = useState(true);
   const [emailUpdate, setEmailUpdate] = useState(true);
   const [emailSale, setEmailSale] = useState(true);
   const [emailSurvey, setEmailSurvey] = useState(true);
   const [smsNotif, setSmsNotif] = useState(false);
   const [smsSale, setSmsSale] = useState(false);
+  const { success, error } = useToast();
 
   useEffect(() => {
-    const stored = localStorage.getItem("notifSettings");
-    if (stored) {
-      const data = JSON.parse(stored);
-      setEmailNotif(data.emailNotif ?? true);
-      setEmailUpdate(data.emailUpdate ?? true);
-      setEmailSale(data.emailSale ?? true);
-      setEmailSurvey(data.emailSurvey ?? true);
-      setSmsNotif(data.smsNotif ?? false);
-      setSmsSale(data.smsSale ?? false);
-    }
-    setIsLoaded(true);
+    const fetchSettings = async () => {
+      const result = await getNotificationSettings();
+      if (result.success) {
+        const data = result.data;
+        setEmailNotif(data.emailNotif ?? true);
+        setEmailUpdate(data.emailUpdate ?? true);
+        setEmailSale(data.emailSale ?? true);
+        setEmailSurvey(data.emailSurvey ?? true);
+        setSmsNotif(data.smsNotif ?? false);
+        setSmsSale(data.smsSale ?? false);
+      } else {
+        error(result.error || "Không thể lấy cài đặt thông báo");
+      }
+      setIsLoaded(true);
+      setIsLoading(false);
+    };
+    fetchSettings();
   }, []);
 
   useEffect(() => {
     if (!isLoaded) return;
-    const settings = {
-      emailNotif,
-      emailUpdate,
-      emailSale,
-      emailSurvey,
-      smsNotif,
-      smsSale,
+    
+    const saveSettings = async () => {
+      const settings = {
+        emailNotif,
+        emailUpdate,
+        emailSale,
+        emailSurvey,
+        smsNotif,
+        smsSale,
+      };
+      
+      const result = await updateNotificationSettings(settings);
+      if (!result.success) {
+        error(result.error || "Không thể cập nhật cài đặt thông báo");
+      }
     };
-    localStorage.setItem("notifSettings", JSON.stringify(settings));
+    
+    saveSettings();
   }, [emailNotif, emailUpdate, emailSale, emailSurvey, smsNotif, smsSale]);
 
   useEffect(() => {
@@ -89,6 +108,14 @@ function NotifSetting() {
       setSmsSale(false);
     }
   }, [emailNotif, smsNotif]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex items-center justify-center font-semibold text-2xl gap-2">
+        <div className="w-10 h-10 border-4 border-gray-300 border-t-[#50D5C4] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-col space-y-[10px] w-full">
