@@ -9,7 +9,7 @@ import shoe_4 from "@/assets/shoes/shoe_4.png";
 import shoe_5 from "@/assets/shoes/shoe_5.png";
 import shoe_6 from "@/assets/shoes/shoe_6.png";
 
-const categories = ["Nam", "Nữ", "Trẻ Em", "Phụ Kiện Thể Thao"];
+const categories = ["Nam", "Nữ", "Unisex", "Trẻ Em", "Phụ Kiện Thể Thao"];
 
 const products = [
   {
@@ -114,7 +114,7 @@ export default function BestSellers() {
               className={`px-5 py-2 rounded border-[1.5px] border-color1 text-[1rem] md:text-[1.5rem] font-medium cursor-pointer transition-all duration-300 ${
                 activeCategory === cat
                   ? "bg-color1 text-white"
-                  : "bg-white text-[#0A1E33] hover:bg-gray-100"
+                  : "bg-white text-[#0A1E33] hover:bg-gray-300"
               }`}
             >
               {cat}
@@ -161,12 +161,29 @@ export default function BestSellers() {
               </button>
 
               {/* Ảnh sản phẩm */}
-              <div className="w-full flex mt-10 justify-center items-center transition overflow-hidden bg-transparent">
+              {/* <div className="w-full flex mt-10 justify-center items-center transition overflow-hidden bg-transparent">
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="max-w-full h-[16rem]  object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="max-w-full h-[16rem] flip- object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+              </div> */}
+
+              <div className="w-full flex mt-10 justify-center items-center overflow-hidden bg-transparent perspective">
+                <div className="relative w-full h-[16rem] preserve-3d transition-transform duration-700 ease-in-out group-hover:rotate-y-180">
+
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="absolute inset-0 w-full h-full object-cover backface-hidden rounded-2xl"
+                  />
+
+                  <img
+                    src={item.image}
+                    alt={`${item.name} back`}
+                    className="absolute inset-0 w-full h-full object-cover backface-hidden rotate-y-180 rounded-2xl"
+                  />
+                </div>
               </div>
 
               {/* Thông tin sản phẩm */}

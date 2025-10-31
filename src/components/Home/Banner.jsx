@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-// 👉 Import ảnh từ thư mục local
 import banner1 from "@/assets/banner/banner1.jpg";
 import banner2 from "@/assets/banner/banner2.jpg";
 import banner3 from "@/assets/banner/banner3.jpg";

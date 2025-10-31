@@ -51,7 +51,7 @@ const ProductCard = ({ image, name, price, className = "" }) => {
         >
           <ArrowUpRight className="w-4.5 h-5" />
         </button> */}
-        <button className="flex items-center justify-center transition">
+        <button className="flex items-center justify-center transition cursor-pointer">
           <img
             src="/icon/arrow.svg"
             alt="Arrow Right"
