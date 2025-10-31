@@ -37,19 +37,26 @@ const ProductCard = ({ image, name, price, className = "" }) => {
         />
       </div>
 
-      <div className="p-4 flex items-center justify-between">
+      <div className="p-4 flex items-center justify-between bg-[D9D9D9]/15">
         <div className="flex flex-col gap-1">
           <h3 className="font-medium text-sm md:text-base text-gray-900">
             {name}
           </h3>
-          <p className="font-bold text-base md:text-lg text-color1">{price}</p>
+          <p className="font-semibold text-base md:text-lg text-color1">{price}</p>
         </div>
 
-        <button
+        {/* <button
           className="flex items-center justify-center w-10 h-10 rounded-full bg-color1 text-white hover:scale-105 transition-colors"
           aria-label="View product"
         >
-          <ArrowUpRight className="w-5 h-5" />
+          <ArrowUpRight className="w-4.5 h-5" />
+        </button> */}
+        <button className="flex items-center justify-center transition">
+          <img
+            src="/icon/arrow.svg"
+            alt="Arrow Right"
+            className="hover:scale-105 w-10 h-10"
+          />
         </button>
       </div>
     </div>
@@ -58,7 +65,7 @@ const ProductCard = ({ image, name, price, className = "" }) => {
 
 const PopularProducts = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const maxIndex = products.length - 1;
+  const maxIndex = products.length - CARDS_PER_PAGE;
   const totalPages = Math.ceil(products.length / CARDS_PER_PAGE);
   const currentPage = Math.floor(currentIndex / CARDS_PER_PAGE);
 
@@ -69,7 +76,7 @@ const PopularProducts = () => {
     setCurrentIndex(pageIndex * CARDS_PER_PAGE);
   };
   return (
-    <section className="w-full px-10 md:px-20 py-12 md:py-20">
+    <section className="w-full px-10 md:px-20 mt-12 md:mt-20">
       <div className="flex flex-col md:flex-row justify-between md:gap-12 items-center">
         {/* Left Section */}
         <div className="flex flex-col gap-6 md:w-1/4 text-center md:text-left">
@@ -88,7 +95,7 @@ const PopularProducts = () => {
             Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit
           </p>
 
-          <button className="mt-4 px-8 py-3 bg-color4 text-white font-semibold rounded-lg hover:bg-color1 transition-colors shadow-md hover:shadow-lg self-center md:self-start">
+          <button className="px-8 py-3 bg-color4 text-white font-semibold rounded hover:bg-hover4 transition-colors shadow-md hover:shadow-lg self-center md:self-start cursor-pointer">
             Khám Phá
           </button>
         </div>

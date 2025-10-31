@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../store/authStore";
 import shoeImg from "@/assets/shoe.png";
+import bgShoe from "@/assets/bg_shoe_3.png";
+import ultimate from "@/assets/ultimate.png";
 import Header from "@/components/Header";
-import HeroSection from "./HeroSection";
-import BrandLogos from "./BrandLogo";
-import PopularProducts from "./PopularProducts";
-import Banner from "./Banner";
-import BestSellers from "./BestSeller";
-import CustomerReviews from "./CustomerReview";
+import HeroSection from "../../components/Home/HeroSection";
+import BrandLogos from "../../components/Home/BrandLogo";
+import PopularProducts from "../../components/Home/PopularProducts";
+import Banner from "../../components/Home/Banner";
+import BestSellers from "../../components/Home/BestSeller";
+import CustomerReviews from "../../components/Home/CustomerReview";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -18,20 +18,35 @@ export default function Home() {
       <Header />
 
       {/* HERO SECTION */}
-      <main className="flex flex-col items-center justify-between gap-4">
+      <main className="flex flex-col items-center justify-start">
         {/* LEFT TEXT CONTENT */}
-        <div className="flex flex-col md:flex-row items-center justify-between flex-1 px-10 md:px-20 py-10 gap-10">
-          <div className="flex flex-col items-start justify-center md:w-1/2 text-left">
-            <div className="text-[5.625rem] font-extrabold text-[#0A1E33] leading-tight mb-5">
-              Find Your Sole Mate With Us
+        <div
+          className="flex md:flex-row items-center justify-start flex-1 gap-10 w-full bg-no-repeat bg-right bg-contain min-h-[calc(100vh-3.5rem)]"
+          style={{
+            backgroundImage: `url(${bgShoe})`,
+            backgroundPosition: "right center", // neo phần phải
+            backgroundSize: "auto 150%",
+          }}
+        >
+          <div className="flex flex-col items-start justify-center md:w-1/2 py-10 px-20 text-left pt-10 gap-4">
+            <div className="flex flex-col justify-center items-start font-['Stardos_Stencil']">
+              <div className="text-[5.625rem] flex font-extrabold text-[#0A1E33] leading-tight mb-1 justify-start">
+                Find Your
+              </div>
+              <div className="text-[5.625rem] flex font-extrabold text-color4 leading-tight mb-1 justify-start">
+                Sole Mate
+              </div>
+              <div className="text-[5.625rem] flex-1 font-extrabold text-[#0A1E33] leading-tight mb-1 justify-start">
+                With Us
+              </div>
             </div>
 
-            <p className="text-[#5A5A5A] mb-8 max-w-md">
+            <p className="text-[#000000]/75 mb-8 w-full font-normal text-[1.5rem] tracking-wide">
               Lorem Ipsum Dolor Sit Amet, Consectetur Adipisicing Elit, Sed Do
               Eiusmod.
             </p>
 
-            <button className="bg-color4 hover:bg-[#3CB0A3] text-white font-semibold px-6 py-3 rounded shadow-2xl  transition cursor-pointer">
+            <button className="px-8 py-3 bg-color4 text-white font-semibold rounded hover:bg-hover4 transition-colors shadow-xl hover:shadow-lg self-center md:self-start cursor-pointer">
               Mua Ngay
             </button>
           </div>
@@ -41,13 +56,15 @@ export default function Home() {
             <img
               src={shoeImg}
               alt="Trendy Slick Pro"
-              className="w-[400px] md:w-[500px] object-contain drop-shadow-xl"
+              className="w-[32rem] object-contain drop-shadow-xl"
             />
-            <div className="absolute bottom-10 right-5 text-right">
-              <h2 className="text-[#0A1E33] text-lg font-bold">
+            <div className="absolute bottom-0 right-3/10 text-center">
+              <h2 className="text-[#0A1E33] text-[1.75rem] font-semibold">
                 Trendy WildStep Pro
               </h2>
-              <p className="text-[#5A5A5A]">₹ 3999.00</p>
+              <p className="text-[#000000]/50 text-[1.5rem] font-semibold">
+                ₹ 3999.00
+              </p>
             </div>
             {/* <span className="absolute text-[8rem] md:text-[10rem] font-extrabold text-[#E8E8E8] -rotate-90 opacity-30 right-0">
             ULTIMATE
@@ -56,7 +73,7 @@ export default function Home() {
         </div>
         <BrandLogos />
         <PopularProducts />
-        {/* <Banner /> */}
+        <Banner />
         <BestSellers />
         <CustomerReviews />
       </main>

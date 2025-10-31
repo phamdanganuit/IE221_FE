@@ -190,7 +190,7 @@ const Header = () => {
 
             <button
               onClick={() => navigate("/login")}
-              className="bg-color4 text-[#0A1E33] font-semibold px-4 py-2 rounded-[0.5rem] hover:bg-[#3CB0A3] transition cursor-pointer"
+              className="bg-color4 text-[#0A1E33] font-semibold px-4 py-2 rounded-[0.5rem] hover:bg-hover4 transition cursor-pointer"
             >
               Đăng nhập
             </button>

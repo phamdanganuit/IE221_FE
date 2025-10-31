@@ -2,7 +2,8 @@ import React from 'react';
 
 const Banner = () => {
   return (
-    <section className="flex flex-col self-center py-16 pr-2 pl-0.5 mt-36 w-full rounded-3xl bg-slate-900 max-w-[1364px] max-md:mt-10 max-md:max-w-full">
+    <section className=" mt-16 px-10 md:px-20 w-full max-md:mt-10 max-md:max-w-full">
+       <div className="flex flex-col self-center bg-slate-900 rounded-3xl p-10">
       <div className="self-end mr-24 max-w-full font-medium text-white w-[469px] max-md:mr-2.5">
         <h2 className="mr-8 text-6xl max-md:mr-2.5 max-md:max-w-full max-md:text-4xl">
           Are you ready to lead the way
@@ -33,9 +34,10 @@ const Banner = () => {
           <div className="flex self-stretch my-auto w-4 bg-white rounded-xl min-h-1.5" />
         </div>
       </div>
-      <div className="self-center mt-0 font-black text-[240px] text-slate-700 max-md:max-w-full max-md:text-4xl">
+      <div className="self-center mt-0 font-black text-[10rem] text-slate-700 tracking-[3.5rem] text-center max-md:max-w-full max-md:text-[5rem]">
         WILD STEP
       </div>
+      </div> 
     </section>
   );
 };

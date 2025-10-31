@@ -143,7 +143,7 @@ const CustomerReviews = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const reviews = allReviews[currentPage];
   return (
-    <section className="flex flex-col items-center self-center w-full mt-16 bg-transparent max-md:mt-10 max-md:max-w-full">
+    <section className="flex flex-col items-center self-center w-full px-10 md:px-20 mt-12 md:mt-20 bg-transparent max-md:max-w-full">
       <h2 className="text-[#0A1E33] flex items-center justify-center gap-5">
         <span className="font-semibold text-[2rem]">—</span>
         <span className="text-[2.5rem] font-semibold">
