@@ -18,7 +18,7 @@ const Header = () => {
   const handleProfile = () => {
     navigate("/profile");
     setShowUserMenu(false);
-  }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -43,7 +43,12 @@ const Header = () => {
   return (
     <header className="w-full flex items-center justify-between px-10 py-4 bg-color1 text-white">
       <div className="flex items-center gap-2">
-        <img src="/Logo_main.svg" alt="Wild Step Logo" className="h-6 cursor-pointer" onClick={()=>navigate("/")}/>
+        <img
+          src="/Logo_main.svg"
+          alt="Wild Step Logo"
+          className="h-6 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
       </div>
 
       <nav className="hidden md:flex gap-6 text-[1.15rem]">
@@ -55,6 +60,9 @@ const Header = () => {
         </a>
         <a href="#" className="hover:text-[#50D5C4] transition">
           Nữ
+        </a>
+        <a href="#" className="hover:text-[#50D5C4] transition">
+          Unisex
         </a>
         <a href="#" className="hover:text-[#50D5C4] transition">
           Trẻ em
