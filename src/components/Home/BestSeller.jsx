@@ -124,7 +124,7 @@ export default function BestSellers() {
       </div>
 
       {/* Danh sách sản phẩm */}
-      <div className="grid gap-6 px-10 md:px-20 grid-cols-2 md:grid-cols-3">
+      <div className="grid gap-6 grid-cols-2 md:grid-cols-3">
         {products
           .filter((item) => item.category === activeCategory)
           .map((item) => (

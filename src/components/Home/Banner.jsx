@@ -1,43 +1,92 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+// 👉 Import ảnh từ thư mục local
+import banner1 from "@/assets/banner/banner1.jpg";
+import banner2 from "@/assets/banner/banner2.jpg";
+import banner3 from "@/assets/banner/banner3.jpg";
+
+const banners = [
+  { id: 1, img: banner3},
+  { id: 2, img: banner2},
+  { id: 3, img: banner1},
+];
 
 const Banner = () => {
-  return (
-    <section className=" mt-16 px-10 md:px-20 w-full max-md:mt-10 max-md:max-w-full">
-       <div className="flex flex-col self-center bg-slate-900 rounded-3xl p-10">
-      <div className="self-end mr-24 max-w-full font-medium text-white w-[469px] max-md:mr-2.5">
-        <h2 className="mr-8 text-6xl max-md:mr-2.5 max-md:max-w-full max-md:text-4xl">
-          Are you ready to lead the way
-        </h2>
-        <p className="mt-2.5 text-2xl max-md:max-w-full">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-10 justify-between items-center px-8 mt-1.5 max-md:px-5 max-md:max-w-full">
-        <img
-          src="https://api.builder.io/api/v1/image/assets/7e6ace8706ad423985a91f95c2918220/991e92eba6e5f3cf25b38784e5de7e8e7aa8adfc?placeholderIfAbsent=true"
-          alt=""
-          className="object-contain shrink-0 self-stretch my-auto w-5 aspect-square"
-        />
-        <img
-          src="https://api.builder.io/api/v1/image/assets/7e6ace8706ad423985a91f95c2918220/15cdd084f60d0706cef9688dec0862c8aec7b098?placeholderIfAbsent=true"
-          alt=""
-          className="object-contain shrink-0 self-stretch my-auto w-5 aspect-square"
-        />
-      </div>
-      <div className="flex z-10 flex-col items-center self-end mt-16 mr-60 max-w-full min-h-[118px] w-[328px] max-md:mt-10 max-md:mr-2.5">
-        <img
-          src="https://api.builder.io/api/v1/image/assets/7e6ace8706ad423985a91f95c2918220/b8e2bcb466ffefe20b1e1584f3476d528d736c02?placeholderIfAbsent=true"
-          alt="Featured product showcase"
-          className="object-contain flex-1 w-full rounded-none aspect-[3.22]"
-        />
-        <div className="flex gap-3 items-center mt-2.5">
-          <div className="flex self-stretch my-auto w-4 bg-white rounded-xl min-h-1.5" />
+  const [current, setCurrent] = useState(0);
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev + 1) % banners.length);
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev - 1 + banners.length) % banners.length);
+  };
+
+   useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(interval); 
+  }, [current]);
+
+ return (
+    <section className="px-10 md:px-20 mt-12 md:mt-20">
+      <div className="relative w-full h-[400px] overflow-hidden rounded-2xl shadow-lg">
+        {/* Slides */}
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${current * 100}%)` }}
+        >
+          {banners.map((banner) => (
+            <div key={banner.id} className="w-full flex-shrink-0 relative">
+              <img
+                src={banner.img}
+                alt={`Banner ${banner.id}`}
+                className="w-full h-[400px] object-cover"
+              />
+              {/* <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                <h2 className="text-white text-3xl font-semibold drop-shadow-lg">
+                  {banner.title}
+                </h2>
+              </div> */}
+            </div>
+          ))}
+        </div>
+
+        {/* Nút điều hướng */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow transition-all duration-300 hover:scale-105"
+          aria-label="Previous slide"
+        >
+          <FaChevronLeft />
+        </button>
+
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow transition-all duration-300 hover:scale-105"
+          aria-label="Next slide"
+        >
+          <FaChevronRight />
+        </button>
+
+        {/* Dấu chấm chỉ số */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
+          {banners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrent(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                current === index
+                  ? "bg-[#000000]/85 w-4 h-4 scale-115 border-[0.1rem] border-gray-400"
+                  : "bg-[#000000]/30 w-4 h-4 hover:bg-[#000000]/60"
+              }`}
+            ></button>
+          ))}
         </div>
       </div>
-      <div className="self-center mt-0 font-black text-[10rem] text-slate-700 tracking-[3.5rem] text-center max-md:max-w-full max-md:text-[5rem]">
-        WILD STEP
-      </div>
-      </div> 
     </section>
   );
 };

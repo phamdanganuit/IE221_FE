@@ -151,7 +151,7 @@ const CustomerReviews = () => {
         </span>
         <span className="font-semibold text-[2rem]">—</span>
       </h2>
-      <div className="grid grid-cols-2 justify-center gap-8 px-10 md:px-20 mt-10 mx-auto">
+      <div className="grid grid-cols-2 justify-center gap-8 mt-10 mx-auto">
         {reviews.map((r) => (
           <div
             key={r.id}
