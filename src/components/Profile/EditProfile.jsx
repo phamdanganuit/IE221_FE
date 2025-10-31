@@ -7,25 +7,25 @@ import { Save } from "lucide-react";
 import ChangeAvatar from "./ChangeAvatar";
 
 function EditProfile() {
-  const [userName, setUserName] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [sex, setSex] = useState("Nam");
   const [birth, setBirth] = useState(null);
   const [avatar, setAvatar] = useState("");
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchData = async () => { // gọi API lấy general profile (userName, displayName, email, phone, sex, birth, avatar)
-      setUserName("hacthiencau");
+    const fetchData = async () => { // gọi API lấy general profile (displayName, email, phone, sex, birth, avatar)
       setDisplayName("Hac Thien Cau");
       setEmail("22521641@gm.uit.edu.vn");
       setPhone("0779765688");
       setSex("Nữ");
-      setBirth(new Date("2004-06-27T17:00:00.000Z"));
+      setBirth(new Date("2004-06-27T17:00:00.000Z")); // new Date(birth) hoặc null
       setAvatar(
         "https://styles.redditmedia.com/t5_4x22x5/styles/communityIcon_qo5i3hehh3i71.jpg?width=256&s=95c779083e5f2b906068fd850c6e095e62dda99b"
       );
+      setIsLoading(false)
     };
     fetchData();
   }, []);
@@ -33,7 +33,6 @@ function EditProfile() {
   const handleSubmit = (e) => {
     e.preventDefault(); // tránh reload trang
     const data = {
-      userName,
       displayName,
       email,
       phone,
@@ -47,27 +46,28 @@ function EditProfile() {
     // await updateProfile(data)
   };
 
+  if(isLoading){
+    return <div className="w-full flex items-center justify-center font-semibold text-2xl gap-2">
+    <div className="w-10 h-10 border-4 border-gray-300 border-t-[#50D5C4] rounded-full animate-spin"></div>
+    </div>
+  }
+
   return (
     <div className="flex-col space-y-[10px] w-full">
       <p className="text-2xl font-semibold mb-4">Hồ sơ</p>
       <div className="flex justify-between items-center">
         <form className="w-150 space-y-[10px]" onSubmit={handleSubmit}>
-          <p className="font-semibold">Tên người dùng</p>
-          <Input
-            value={userName}
-            disabled
-            className="w-full bg-white rounded-lg outline outline-2 outline-offset-[-2px] outline-gray-200 text-gray-400 px-2"
-          />
-
-          <p className="font-semibold">Tên hiển thị</p>
+          <p className="font-semibold">Tên hiển thị <span className="text-red-500">*</span></p>
           <Input
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
+            required
             className="w-full bg-white rounded-lg outline outline-2 outline-offset-[-2px] outline-gray-200 px-2"
           />
-          <p className="font-semibold">Email</p>
+          <p className="font-semibold">Email <span className="text-red-500">*</span></p>
           <Input
             value={email}
+            required
             onChange={(e) => setEmail(e.target.value)}
             className="w-full bg-white rounded-lg outline outline-2 outline-offset-[-2px] outline-gray-200 px-2"
           />
@@ -111,7 +111,7 @@ function EditProfile() {
             </Label>
           </div>
           <p className="font-semibold">Ngày sinh</p>
-          {birth && (
+          {!isLoading && (
             <DatePicker
               defaultValue={birth}
               onChange={(date) => setBirth(date)}

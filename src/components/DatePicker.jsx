@@ -43,7 +43,7 @@ const DatePicker = ({ defaultValue, onChange }) => {
     setDate(newDate);
     setValue(formatDate(newDate));
     setOpen(false);
-    if (onChange) onChange(newDate); // 🔥 Gửi dữ liệu lên component cha
+    if (onChange) onChange(newDate); // Gửi dữ liệu lên component cha
   };
 
   return (
