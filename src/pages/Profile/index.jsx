@@ -14,9 +14,9 @@ function Profile() {
       {/*Header*/}
 
       {/*Main*/}
-      <div className="flex jusifty-center w-[1080px] flex mt-20 mx-auto space-x-2">
+      <div className="flex jusifty-center w-[1080px] flex pt-20 mx-auto space-x-2">
         <Sidebar isActive={isActive} setActive={setActive} />
-        <div className="w-full pl-4 border-l border-[#3A506B] ">
+        <div className="w-full pl-2 max-h-screen">
           {isActive === "Hồ sơ" ? (
             <EditProfile />
           ) : isActive === "Địa chỉ" ? (
