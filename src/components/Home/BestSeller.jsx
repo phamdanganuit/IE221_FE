@@ -96,7 +96,7 @@ export default function BestSellers() {
     );
   };
   return (
-    <section className="w-full mt-16 bg-transparent">
+    <section className="w-full px-10 md:px-20 mt-12 md:mt-20 bg-transparent">
       {/* Tiêu đề */}
       <div className="text-center mb-10">
         <h2 className="text-[#0A1E33] flex items-center justify-center gap-5">
@@ -124,7 +124,7 @@ export default function BestSellers() {
       </div>
 
       {/* Danh sách sản phẩm */}
-      <div className="grid gap-6 px-10 md:px-20 grid-cols-2 md:grid-cols-3">
+      <div className="grid gap-6 grid-cols-2 md:grid-cols-3">
         {products
           .filter((item) => item.category === activeCategory)
           .map((item) => (
@@ -145,7 +145,7 @@ export default function BestSellers() {
               {/* Nút yêu thích */}
               <button
                 onClick={() => toggleFavorite(item.id)}
-                className="absolute top-5 right-3 w-8 h-8 flex items-center justify-center hover:scale-110 transition"
+                className="cursor-pointer absolute top-5 right-3 w-8 h-8 flex items-center justify-center hover:scale-110 transition"
               >
                 {favorites.includes(item.id) ? (
                   <GoHeartFill
@@ -183,7 +183,7 @@ export default function BestSellers() {
                     </span>
                   </p>
                 </div>
-                <button className="flex items-center justify-center transition">
+                <button className="flex items-center justify-center transition cursor-pointer">
                   <img
                     src="/icon/arrow.svg"
                     alt="Arrow Right"

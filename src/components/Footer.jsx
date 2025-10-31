@@ -7,9 +7,7 @@ const Footer = () => {
         <div className="w-full h-auto max-md:max-w-full">
           <div className="flex flex-wrap gap-10 justify-between items-start w-full max-md:max-w-full">
             <div className="text-white min-w-60 w-[409px]">
-              <h3 className="text-3xl font-extrabold leading-loose">
-                WILD STEP
-              </h3>
+              <img src='/Logo_main.svg' alt='Wild Step Logo' className='w-[20rem] mb-6'/>
               <p className="mt-12 text-lg leading-7 max-md:mt-10">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                 do eiusmod tempor incididunt ut labore et dolore magna aliqua.
