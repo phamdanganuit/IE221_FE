@@ -28,7 +28,7 @@ function ChangeAvatar({ avatar, setAvatar }) {
             : "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
         }
         alt="avatar"
-        className="w-[150px] h-[150px] rounded-full outline outline-1 outline-[#50D5C4]"
+        className="w-[150px] h-[150px] rounded-full outline-1 outline-[#50D5C4]"
       />
       <Button variant={"outline"} onClick={handleClick}>
         <Image />
@@ -42,7 +42,9 @@ function ChangeAvatar({ avatar, setAvatar }) {
         className="hidden"
       />
       <p className="max-w-[200px] text-center">
-        Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG
+        Dụng lượng file tối đa 1 MB.
+        <br />
+        Định dạng: .JPEG, .PNG
       </p>
     </div>
   );
