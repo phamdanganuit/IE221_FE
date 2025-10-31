@@ -172,13 +172,13 @@ const Header = () => {
                   </div>
                   <button
                     onClick={handleProfile}
-                    className="w-full px-4 py-2 text-left text-[1rem] text-gray-900 hover:bg-gray-100 transition"
+                    className="cursor-pointer w-full px-4 py-2 text-left text-[1rem] text-gray-900 hover:bg-gray-100 transition"
                   >
                     Hồ sơ
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="w-full px-4 py-2 text-left text-[1rem] text-red-600 hover:bg-red-50 transition"
+                    className="cursor-pointer w-full px-4 py-2 text-left text-[1rem] text-red-600 hover:bg-red-50 transition"
                   >
                     Đăng xuất
                   </button>
