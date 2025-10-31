@@ -33,11 +33,10 @@ const logos = [
 
 export default function BrandLogos() {
   return (
-    <section className="relative py-8 px-10 md:px-20 bg-slate-900">
+    <section className="relative w-screen overflow-hidden py-8 px-10 md:px-20 bg-slate-900">
       <div className="relative">
-        <InfiniteSlider duration={40} durationOnHover={Infinity} gap={112}>
-          {/* Nhân đôi mảng để chạy seamless */}
-          {[...logos, ...logos].map((logo, index) => (
+        <InfiniteSlider className="w-screen overflow-hidden" duration={40} durationOnHover={Infinity} gap={80}>
+          {[...logos, ...logos, ...logos].map((logo, index) => (
             <div key={index} className="flex">
               <img
                 src={logo.src}
@@ -49,8 +48,8 @@ export default function BrandLogos() {
         </InfiniteSlider>
 
         {/* Gradient 2 đầu */}
-        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-red-900 pointer-events-none"></div>
-        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-red-900 pointer-events-none"></div>
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-slate-900 pointer-events-none"></div>
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-slate-900 pointer-events-none"></div>
       </div>
     </section>
   )
