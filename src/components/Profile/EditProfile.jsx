@@ -86,6 +86,7 @@ function EditProfile() {
     else sexValue = "other";
 
     const data = {
+      email,
       displayName,
       phone,
       sex: sexValue,

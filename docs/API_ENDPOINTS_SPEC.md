@@ -12,6 +12,7 @@ Tất cả các endpoint đều nằm dưới base URL: `/api/`
 - **Body** (tùy chọn):
 ```json
 {
+  "email": "string",
   "displayName": "string",
   "phone": "string", 
   "sex": "male|female|other",
