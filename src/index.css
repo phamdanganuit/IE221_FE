@@ -11,7 +11,7 @@ html {
 :root {
   font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  /* font-weight: 400; */
 
   color-scheme: light dark;
   background-color: transparent;
@@ -96,6 +96,9 @@ html {
     }
   .text-color5 {
     color: var(--color5);
+  }
+  .border-color1 {
+    border-color: var(--color1);
   }
   .border-color4 {
     border-color: var(--color4);
