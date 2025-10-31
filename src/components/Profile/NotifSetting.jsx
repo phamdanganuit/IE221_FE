@@ -31,6 +31,8 @@ const NotifItem = ({ title, description, value, setValue, disabled }) => {
             disabled={disabled}
             checked={value}
             onCheckedChange={setValue}
+            aria-label="Medium switch"
+            className="h-6 w-10 [&_span]:size-5 data-[state=checked]:[&_span]:translate-x-4.5 data-[state=checked]:[&_span]:rtl:-translate-x-4.5"
           />
         </ItemActions>
       </Item>

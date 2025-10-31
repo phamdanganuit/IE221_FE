@@ -43,7 +43,7 @@ const Header = () => {
   return (
     <header className="w-full flex items-center justify-between px-10 py-4 bg-color1 text-white">
       <div className="flex items-center gap-2">
-        <img src="/Logo_main.svg" alt="Wild Step Logo" className="h-6" />
+        <img src="/Logo_main.svg" alt="Wild Step Logo" className="h-6 cursor-pointer" onClick={()=>navigate("/")}/>
       </div>
 
       <nav className="hidden md:flex gap-6 text-[1.15rem]">
