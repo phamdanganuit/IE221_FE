@@ -2,6 +2,7 @@ import React from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { UserCircle, LayoutDashboard, LogOut } from "lucide-react";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -17,6 +18,11 @@ const Header = () => {
 
   const handleProfile = () => {
     navigate("/profile");
+    setShowUserMenu(false);
+  };
+
+  const handleAdmin = () => {
+    navigate("/admin");
     setShowUserMenu(false);
   };
 
@@ -172,15 +178,26 @@ const Header = () => {
                   </div>
                   <button
                     onClick={handleProfile}
-                    className="cursor-pointer w-full px-4 py-2 text-left text-[1rem] text-gray-900 hover:bg-gray-100 transition"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-left text-[1rem] text-gray-900 hover:bg-gray-100 transition cursor-pointer"
                   >
-                    Hồ sơ
+                    <UserCircle className="w-4 h-4" />
+                    <span>Hồ sơ</span>
                   </button>
+                  {user?.role === 'admin' && (
+                    <button
+                      onClick={handleAdmin}
+                      className="w-full flex items-center gap-2 px-4 py-2 text-left text-[1rem] text-gray-900 hover:bg-gray-100 transition cursor-pointer"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      <span>Quản lý Admin</span>
+                    </button>
+                  )}
                   <button
                     onClick={handleLogout}
-                    className="cursor-pointer w-full px-4 py-2 text-left text-[1rem] text-red-600 hover:bg-red-50 transition"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-left text-[1rem] text-red-600 hover:bg-red-50 transition cursor-pointer"
                   >
-                    Đăng xuất
+                    <LogOut className="w-4 h-4" />
+                    <span>Đăng xuất</span>
                   </button>
                 </div>
               )}
